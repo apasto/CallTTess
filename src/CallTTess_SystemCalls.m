@@ -1,4 +1,4 @@
-function out = CallTTess_SystemCalls(TessPath,ExeNames,TmpGrdFile,Nobs,Tess,ParFlag,VerbFlag,CalcFlag,varargin)
+function out = CallTTess_SystemCalls(TessPath,ExeNames,TmpGrdFile,nObs,Tess,ParFlag,VerbFlag,CalcFlag,varargin)
 %CallTTess_SystemCalls
 
 %% write tesseroids definitions to temporary file
@@ -72,7 +72,7 @@ end
     function ReadOut = ReadTxt(filename)
         delimiter = ' ';
         startRow = 12; % this is due to Tesseroids output header
-        endRow = startRow + Nobs;
+        endRow = startRow + nObs;
         formatSpec = '%*s%*s%*s%f%*s%*s%*s%*s%[^\n\r]';
         fileID = fopen(filename,'r');
         textscan(fileID, '%[^\n\r]', startRow-1, 'WhiteSpace', '',...

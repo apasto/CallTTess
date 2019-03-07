@@ -68,6 +68,8 @@ Sph_Mesh_Heights = Sph_HeightsV' * ones(size(LonV));
 
 % Open file
 TargetFileID = fopen(TargetFile,'w');
+% create onCleanup object, to fclose whatever happens
+onCleanupTargetFile = onCleanup(@() GrdCloseFile(TargetFileID));
 
 % Write header
 % 5 rows, as in tessgrd output
@@ -90,4 +92,12 @@ fprintf(TargetFileID,formatSpec,...
 
 % fclose(TargetFileID) is not needed, since there is a onCleanup object
 
+end
+
+% Cleanup function called when cleanup objects are destroyed
+% this happens on normal completition
+% or due to errors, Ctrl+C by user, unforeseeable disasters, etc
+
+function GrdCloseFile(Target)
+fclose(Target);
 end
