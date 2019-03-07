@@ -133,7 +133,7 @@ out = CallTTess_SystemCalls(...
 % perform a reshape to array here
 for i=1:10
     if CalcFlag(i)
-        reshape(out{i},xnum,ynum);
+        out{i} = reshape(out{i},xnum,ynum);
     end
 end
 
