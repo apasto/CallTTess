@@ -20,6 +20,11 @@ if nargin==11
     Ell_ref = varargin{2};
 end
 
+% paths to binaries
+% these are defined by the 'CallTTess_DefinePath' function
+% which saves a 'TessPathDef.mat' file in the same directory of this file
+TessPathDef = CallTTess_GetPath;
+
 % calling tessgrd, it is way faster to write to a file and read from it
 switch grdBuilder
     case 'tessgrd'
