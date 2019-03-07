@@ -1,5 +1,7 @@
 function CallTTess_BuildRectGrid(xmin,xmax,xnum,ymin,ymax,ynum,h,TmpGrdFile,grdBuilder,varargin)
 %CallTTess_BuildRectGrid
+nargoutchk(0,0)
+narginchk(9,11)
 
 % default precision: up to 5 decimal digits
 DefaultWritePrec = '%.5f';
@@ -19,9 +21,6 @@ if nargin==11
 end
 
 % calling tessgrd, it is way faster to write to a file and read from it
-% create onCleanup object
-onCleanupGRID = onCleanup(@() CleanGrid(TmpGrdFile));
-
 switch grdBuilder
     case 'tessgrd'
         [GrdStatus,GrdCmdout] = system([TessPathDef.TessPath,TessPathDef.TessGrd,' -v -r',...
@@ -69,8 +68,6 @@ Sph_Mesh_Heights = Sph_HeightsV' * ones(size(LonV));
 
 % Open file
 TargetFileID = fopen(TargetFile,'w');
-% create onCleanup object
-onCleanupTargetFile = onCleanup(@() TessGrdEllCloseFile(TargetFileID));
 
 % Write header
 % 5 rows, as in tessgrd output
@@ -94,16 +91,3 @@ fprintf(TargetFileID,formatSpec,...
 % fclose(TargetFileID) is not needed, since there is a onCleanup object
 
 end
-
-% Cleanup function called when cleanup objects are destroyed
-% this happens on normal completition
-% or due to errors, Ctrl+C by user, unforeseeable disasters, etc
-
-function CleanGrid(TmpGrdFile)
-delete(TmpGrdFile);
-end
-
-function TessGrdEllCloseFile(Target)
-fclose(Target);
-end
-

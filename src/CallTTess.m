@@ -117,6 +117,9 @@ TessPathDef = CallTTess_GetPath;
 %% build observation grid
 % rectangular and regular
 TmpGrdFile = 'TmpGrd.txt';
+% create onCleanup object
+onCleanupGRID = onCleanup(@() CleanGrid(TmpGrdFile));
+
 CallTTess_BuildRectGrid(...
     xmin,xmax,xnum,...
     ymin,ymax,ynum,...
@@ -159,4 +162,12 @@ if VerbFlag==1
              num2str((TimeElapsed-TimeTess)/(nTess*nObs)), ' s/itn \n']);
 end
 
+end
+
+% Cleanup function called when cleanup objects are destroyed
+% this happens on normal completition
+% or due to errors, Ctrl+C by user, unforeseeable disasters, etc
+
+function CleanGrid(TmpGrdFile)
+delete(TmpGrdFile);
 end
