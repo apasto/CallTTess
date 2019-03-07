@@ -41,8 +41,8 @@ end
 %% manage varargin and inputs
 % CalcFlag
 CalcFlagDefault = [0 0 0 1 0 0 0 0 0 0]; % only gz
-narginchk(4,5)
-if nargin==5
+narginchk(5,6)
+if nargin==6
     CalcFlag = varargin{1};
     if isempty(CalcFlag)
         CalcFlag = CalcFlagDefault;
@@ -95,19 +95,11 @@ for i=1:10
 end
 
 %% verbose output
-TimeElapsed = toc(TimeStart);
-
 if VerbFlag==1
+    TimeElapsed = toc(TimeStart);
     fprintf(['[',datestr(now,'yyyy-mm-ddTHH:MM:ss'),'] ',...
-             ' <strong>CallTTess done</strong> in ',...
-             num2str(nTess,'%d'),' tess built in ',...
-             num2str(TimeElapsed),' s \n']);
-    fprintf(['                      actual forward time = ',...
-             num2str(TimeElapsed-TimeTess),' s \n']);
-    fprintf(['                      write time per tesseroid definition = ',...
-             num2str(TimeTess/nTess), ' s/tess \n']);
-    fprintf(['                      computation time per itn = ',...
-             num2str((TimeElapsed-TimeTess)/(nTess*nObs)), ' s/itn \n']);
+        ' <strong>CallTTess done</strong> in ',...
+        num2str(TimeElapsed),' s \n']);
 end
 
 end

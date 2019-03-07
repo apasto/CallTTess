@@ -1,6 +1,10 @@
 function out = CallTTess_SystemCalls(TessPath,ExeNames,TmpGrdFile,nObs,Tess,ParFlag,VerbFlag,CalcFlag,varargin)
 %CallTTess_SystemCalls
 
+if VerbFlag==1
+    TimeStartTess = tic;
+end
+
 %% write tesseroids definitions to temporary file
 % default precision: up to 5 decimal digits
 DefaultWritePrec = '%.5f';
@@ -56,12 +60,11 @@ end
 % create onCleanup object
 onCleanupPRISMS = onCleanup(@() CleanTess(TmpTessFile,ParWorkers));
 
-%% verbose output of called function, date, and calculated functionals
-TimeTess = toc(TimeStart);
-
+%% verbose output of time needed to write out tesseroids
 if VerbFlag==1
+    TimeTess = toc(TimeStartTess);
     fprintf(['[',datestr(now,'yyyy-mm-ddTHH:MM:ss'),'] ',...
-             num2str(nTess,'%d'),' tess built in ',...
+             num2str(size(Tess,1),'%d'),' tess built in ',...
              num2str(TimeTess),' s \n']);
 end
 
@@ -104,7 +107,7 @@ onCleanupOUT = onCleanup(@() CleanOutput(TmpOutFile,ParWorkers));
 % generic call to functional
     function out = CalcFunctional(CF,CFname)
         % documentare
-        out_split = NaN(ParWorkers,ynum*xnum);
+        out_split = NaN(ParWorkers,nObs);
         if CalcFlag(CF)==1
             if ParWorkers~=1
                 parfor PP=1:ParWorkers
@@ -131,7 +134,6 @@ onCleanupOUT = onCleanup(@() CleanOutput(TmpOutFile,ParWorkers));
                 out_split(PP,:) = ReadTxt(TmpOutFile{CF,PP});
             end
             out = sum(out_split,1);
-            %out = reshape(out,xnum,ynum);
         else
             out = [];
         end

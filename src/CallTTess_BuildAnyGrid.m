@@ -1,5 +1,5 @@
 function CallTTess_BuildAnyGrid(GrdFile,X,Y,Z,varargin)
-%CallTTess_BuildAnyGrid(GrdFile,X,Y,Z,varargin)
+%CallTTess_BuildAnyGrid(GrdFile,X,Y,Z,[Precision])
 nargoutchk(0,0)
 narginchk(4,5)
 
@@ -28,7 +28,8 @@ onCleanupTargetFile = onCleanup(@() GrdCloseFile(TargetFileID));
 % 5 rows, as in tessgrd output
 HeaderText = ['# Grid generated with CallTTess_BuildAnyGrid.m:\n',...
               '#   local time: ',datestr(now,'yyyy-mm-dd HH:MM:ss\n'),...
-              '#   total ',num2str(numel(X),'%d'),' points\n'];
+              '#   total ',num2str(numel(X),'%d'),' points\n',...
+              '# \n','# \n']; % keep header length, for compatibility
 fprintf(TargetFileID,HeaderText);
 
 % Write in Tesseroids calculation point format
