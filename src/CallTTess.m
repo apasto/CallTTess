@@ -85,24 +85,19 @@ if VerbFlag==1
 end
 
 %% paths to binaries
+% these are defined by the 'CallTTess_DefinePath' function
+% which saves a 'TessPathDef.mat' file in the same directory of this file
 
-TessPath = 'C:\programs\tesseroids-1.2.1\bin\';
-TessGrd  = 'tessgrd.exe';
-Tesspot = 'tesspot.exe';
-Tessgx  = 'tessgx.exe';
-Tessgy  = 'tessgy.exe';
-Tessgz  = 'tessgz.exe';
-Tessgxx = 'tessgxx.exe';
-Tessgxy = 'tessgxy.exe';
-Tessgxz = 'tessgxz.exe';
-Tessgyy = 'tessgxy.exe';
-Tessgyz = 'tessgyz.exe';
-Tessgzz = 'tessgzz.exe';
+% get path of CallTTess
+CallTTess_path = which('CallTTess');
+CallTTess_path = CallTTess_path(1:end-length('CallTTess.m'));
 
-ExeNames = {Tesspot,...
-            Tessgx ,Tessgy ,Tessgz,...
-            Tessgxx,Tessgxy,Tessgxz,...
-            Tessgyy,Tessgyz,Tessgzz};
+assert(...
+    isfile([CallTTess_path,'TessPathDef.mat']),...
+    ['TessPathDef.mat does not exist in ',CallTTess_path,...
+    ' Create it using CallTTess_DefinePath']);
+
+load([CallTTess_path,'TessPathDef.mat'],'TessPathDef.TessPathDef');
 
 %% build observation grid
 % calling Tesseroids, it is way faster to write to a file and read from it
@@ -112,15 +107,15 @@ onCleanupGRID = onCleanup(@() CleanGrid(TmpGrdFile));
 
 switch grdBuilder
     case 'tessgrd'
-        [GrdStatus,GrdCmdout] = system([TessPath,TessGrd,' -v -r',...
+        [GrdStatus,GrdCmdout] = system([TessPathDef.TessPath,TessPathDef.TessGrd,' -v -r',...
                                         num2str(xmin,'%i'),'/',num2str(xmax,'%i'),'/',...
                                         num2str(ymin,'%i'),'/',num2str(ymax,'%i'),' -b',...
                                         num2str(xnum,'%i'),'/',num2str(ynum,'%i'),...
                                         ' -z',num2str(h,'%i'),' > ',TmpGrdFile]);
         if GrdStatus~=0
-            disp(['Output of system call to ',TessGrd]);
+            disp(['Output of system call to ',TessPathDef.TessGrd]);
             disp(GrdCmdout);
-            error([TessGrd,' exited with nonzero status. Quitting.']);
+            error([TessPathDef.TessGrd,' exited with nonzero status. Quitting.']);
         end
     case 'TessGrdEll'
         xstep = (xmax-xmin)/(xnum-1);
@@ -227,13 +222,13 @@ onCleanupOUT = onCleanup(@() CleanOutput(TmpOutFile,ParWorkers));
             if ParWorkers~=1
                 parfor PP=1:ParWorkers
                     [CalcStatus(CF,PP),CalcCmdout{CF,PP}] = ...
-                        system([TessPath,CFname,' -v ',...
+                        system([TessPathDef.TessPath,CFname,' -v ',...
                                 TmpTessFile{PP},' < ',TmpGrdFile,...
                                 ' > ' TmpOutFile{CF,PP}]);
                 end
             else
                 [CalcStatus(CF,1),CalcCmdout{CF,1}] = ...
-                    system([TessPath,CFname,' -v ',...
+                    system([TessPathDef.TessPath,CFname,' -v ',...
                             TmpTessFile{1},' < ',TmpGrdFile,...
                             ' > ' TmpOutFile{CF,1}]);
             end
@@ -257,7 +252,7 @@ onCleanupOUT = onCleanup(@() CleanOutput(TmpOutFile,ParWorkers));
 
 out = cell(1,10);
 for i=1:10
-    out{i} = CalcFunctional(i,ExeNames{i});
+    out{i} = CalcFunctional(i,TessPathDef.ExeNames{i});
 end
 
 %% discard empty outputs and write to varagout
