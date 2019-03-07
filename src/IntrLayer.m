@@ -1,7 +1,7 @@
-function out_gzz_misfit = UnderplatingF(X,Y,Z,xsize,ysize,Rho,Z0,in_gzz,GrdFile,nObs)
-%UnderplatingF
+function out_gzz_misfit = IntrLayer(X,Y,Z,xsize,ysize,Rho,Z0,in_gzz,GrdFile,nObs)
+%IntrLayer
 
-Tess = UnderplatingF_BuildTess(X,Y,Z,xsize,ysize,Rho,Z0);
+Tess = IntrLayer_BuildTess(X,Y,Z,xsize,ysize,Rho,Z0);
 
 % call CallTTess_AnyGrid
 ParFlag = 0;
@@ -15,8 +15,8 @@ out_gzz_misfit = in_gzz - out_gzz;
 
 end
 
-
-function Tess = UnderplatingF_BuildTess(X,Y,Z,xsize,ysize,DeltaRho,Z0)
+% embedded function: build tesseroid-array
+function Tess = IntrLayer_BuildTess(X,Y,Z,xsize,ysize,DeltaRho,Z0)
 %UnderplatingF_BuildTess
 % build tesseroids centered in (X,Y), (xsize,ysize) wide
 % with top/bottom in Z
