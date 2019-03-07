@@ -1,15 +1,42 @@
 function [varargout] = CallTTess(xmin,xmax,xnum,ymin,ymax,ynum,h,Tess,ParFlag,VerbFlag,varargin)
-%CallTTess
-% call Tesseroids binaries for tesseroids in geographic coordinates
-% from (and to) Matlab
-% [Tesseroids: Uieda et. al 2016, doi:10.1190/geo2015-0204.1]
-% 1st optional argin = CalcFlag, vector of true/false as follows
-%     [pot gx gy gz gxx gxy gxz gyy gyz gzz]
-%     if missing or empty, only gz is calculated
-% 2nd optional argin: type of grid builder (case insensitive)
-%     'tessgrd'    : default, use Tesseroids binary, grid on spherical coordinates
-%     'TessGrdEll' : convert input ellipsoidal coordinates to spherical
-% 3rd optional argin: referenceEllipsoid object, needed for 'TessGrdEll'
+%CallTTess call Tesseroids binaries for tesseroids in geographic coordinates
+% [uses Tesseroids: Uieda et. al 2016, doi:10.1190/geo2015-0204.1]
+%
+% Syntax: [(one output per functional)] = ...
+%             CallTTess(...
+%                 xmin,xmax,xnum,...
+%                 ymin,ymax,ynum,...
+%                 h,Tess,ParFlag,VerbFlag,...
+%                 [CalcFlag,grdBuilder,referenceEllipsoid])
+%
+% Inputs:
+%    observation grid definition:
+%        these can be either spherical or ellipsoidal coordinates
+%        default is spherical, using Tesseroids reference sphere
+%        see 2nd optional argument to use ellipsoidal coordinates
+%            xmin,xmax,xnum : coords along Lon: start, stop, number
+%            ymin,ymax,ynum : coords along Lat: start, stop, number
+%            h : observation height
+%    Tess     : n-by-7 array of tesseroid definitions
+%                   [x1,x2,y1,y2,z1,z2,density]
+%    ParFlag  : use parallel workers?
+%    VerbFlag : verbose output? (print times)
+%
+% Optional Input Arguments:
+%     1st optional argin = CalcFlag, vector of true/false as follows
+%         [pot gx gy gz gxx gxy gxz gyy gyz gzz]
+%         if missing or empty, only gz is calculated
+%     2nd optional argin: type of grid builder (case insensitive)
+%         'tessgrd'    : default, use Tesseroids binary, grid on spherical coordinates
+%         'TessGrdEll' : convert input ellipsoidal coordinates to spherical
+%     3rd optional argin: referenceEllipsoid object, needed for 'TessGrdEll'  
+%
+% Outputs:
+%    one output array for each functional requested in CalcFlag
+%
+% 2018, Alberto Pastorutti
+%
+
 
 %% timing
 % only used for verbose output
