@@ -27,3 +27,5 @@ codegen/
 
 # Octave session info
 octave-workspace
+
+src/TessPathDef\.mat
