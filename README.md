@@ -1,5 +1,5 @@
 # CallTTess
-Call [Tesseroids](https://github.com/leouieda/tesseroids) binaries from/to Matlab, to perform forward modelling of gravitational fields.
+Call [Tesseroids](https://github.com/leouieda/tesseroids) ([Uieda et al., 2016](http://dx.doi.org/10.1190/geo2015-0204.1)) binaries from/to Matlab, to perform forward modelling of gravitational fields.
 
 The set of functions in CallTTess takes care of writing the computation points grid and the tesseroids definition, calling the required binaries, and reading back from input.
 
