@@ -1,2 +1,9 @@
 # CallTTess
-Perfom calls to [Tesseroids](tesseroids.leouieda.com) binaries from Matlab.
+Call [Tesseroids](https://github.com/leouieda/tesseroids) binaries from/to Matlab, to perform forward modelling of gravitational fields.
+
+The set of functions in CallTTess takes care of writing the computation points grid and the tesseroids definition, calling the required binaries, and reading back from input.
+
+Probably not an ideal implementation ⁠—for sure not the most efficient— but it works.
+Concurrent processing on parallel workers is possible. It has been implemented through the Parallel Computing Toolbox.
+
+As pointed out in issue [#1](../../issues/1), this is not a proper Readme and the functions still lack adequate documentation.
