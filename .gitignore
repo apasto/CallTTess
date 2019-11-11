@@ -29,3 +29,4 @@ codegen/
 octave-workspace
 
 src/TessPathDef\.mat
+src/PrismPathDef\.mat
