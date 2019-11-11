@@ -74,8 +74,8 @@ end
 % declaration of function to import text
     function ReadOut = ReadTxt(filename)
         delimiter = ' ';
-        startRow = 12; % this is due to Tesseroids-tess output header
-                       % NOTE: 12 in Tesseroids-tess, 9 in Tesseroids-prism
+        startRow = 9; % this is due to Tesseroids-prism output header
+                      % NOTE: 12 in Tesseroids-tess, 9 in Tesseroids-prism
         endRow = startRow + nObs;
         formatSpec = '%*s%*s%*s%f%*s%*s%*s%*s%[^\n\r]';
         fileID = fopen(filename,'r');
