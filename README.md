@@ -1,4 +1,9 @@
 # CallTTess
+
+> [!IMPORTANT]  
+> This served its purpose, when I needed it, but you are better off using [Harmonica](https://www.fatiando.org/harmonica), e.g. [`harmonica.tesseroid_gravity`](https://www.fatiando.org/harmonica/dev/api/generated/harmonica.tesseroid_gravity.html#harmonica.tesseroid_gravity) - either in Python or, if your really cannot do otherwise, by [calling it from Matlab](https://mathworks.com/help/matlab/call-python-libraries.html)
+
+
 Call [Tesseroids](https://github.com/leouieda/tesseroids) ([Uieda et al., 2016](http://dx.doi.org/10.1190/geo2015-0204.1)) binaries from/to Matlab, to perform forward modelling of gravitational fields.
 
 The set of functions in CallTTess takes care of writing the computation points grid and the tesseroids definition, calling the required binaries, and reading back from input.
